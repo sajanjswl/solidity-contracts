@@ -1,17 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"log"
-	"net/http"
+	"math/big"
 
 	"box/api"
 
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
-	// "github.com/sajanjswl/ethereum-notes/api"
 )
 
 func main() {
@@ -19,37 +17,41 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to connect to the Ethereum client: %v", err)
 	}
-	conn, err := api.NewApi(common.HexToAddress("0x2B3d254D7958161990Cc17df581D423a33135515"), client)
+	contractAddress := common.HexToAddress("0x4bC93B24f371dB2E1Cae9877d147634807689CB1")
+	conn, err := api.NewApi(contractAddress, client)
 	if err != nil {
 		panic(err)
 	}
+	// query := ethereum.FilterQuery{
+	// 	Addresses: []common.Address{contractAddress},
+	// }
 
-	e := echo.New()
+	// logs := make(chan types.Log)
+	// sub, err := client.SubscribeFilterLogs(context.Background(), query, logs)
+	// if err != nil {
+	// 	log.Println("Faile to sucribe fileter logs", err)
+	// }
 
-	// Middleware
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
+	// fmt.Println("printing subsribe", sub)
+	reply, err := conn.Store(&bind.TransactOpts{}, big.NewInt(100))
+	if err != nil {
+		fmt.Println("Faile to store value", err.Error())
+	}
+	fmt.Println("Printing reply", reply)
 
-	// Routes
-	e.GET("/greet/:message", func(c echo.Context) error {
-		message := c.Param("message")
-		reply, err := conn.Greet(&bind.CallOpts{}, message)
-		if err != nil {
-			return err
-		}
+	// reply2, err := conn.Retrieve(&bind.CallOpts{})
+	// if err != nil {
+	// 	fmt.Println("failed to retrieve value", err.Error())
+	// }
+	// fmt.Println("Printing reply2", reply2)
 
-		c.JSON(http.StatusOK, reply)
-		return nil
-	})
-	e.GET("/hello", func(c echo.Context) error {
-		reply, err := conn.Hello(&bind.CallOpts{})
-		if err != nil {
-			return err
-		}
-		c.JSON(http.StatusOK, reply) // Hello World
-		return nil
-	})
+	// for {
+	// 	select {
+	// 	case err := <-sub.Err():
+	// 		log.Fatal(err)
+	// 	case vLog := <-logs:
+	// 		fmt.Println(vLog) // pointer to event log
+	// 	}
+	// }
 
-	// Start server
-	e.Logger.Fatal(e.Start(":1323"))
 }

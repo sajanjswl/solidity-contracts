@@ -30,8 +30,8 @@ var (
 
 // ApiMetaData contains all meta data concerning the Api contract.
 var ApiMetaData = &bind.MetaData{
-	ABI: "[{\"inputs\":[{\"internalType\":\"string\",\"name\":\"str\",\"type\":\"string\"}],\"name\":\"Greet\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"Hello\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"pure\",\"type\":\"function\"}]",
-	Bin: "0x608060405234801561001057600080fd5b506101d7806100206000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c8063bcdfe0d51461003b578063efdeaaf514610074575b600080fd5b60408051808201909152600b81526a12195b1b1bc815dbdc9b1960aa1b60208201525b60405161006b9190610085565b60405180910390f35b61005e6100823660046100f0565b90565b600060208083528351808285015260005b818110156100b257858101830151858201604001528201610096565b818111156100c4576000604083870101525b50601f01601f1916929092016040019392505050565b634e487b7160e01b600052604160045260246000fd5b60006020828403121561010257600080fd5b813567ffffffffffffffff8082111561011a57600080fd5b818401915084601f83011261012e57600080fd5b813581811115610140576101406100da565b604051601f8201601f19908116603f01168101908382118183101715610168576101686100da565b8160405282815287602084870101111561018157600080fd5b82602086016020830137600092810160200192909252509594505050505056fea26469706673582212204b8d3fa27e2d97c3902064e6d16ba4466fd63f515c1d3f7139f52588e1516bb064736f6c634300080b0033",
+	ABI: "[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"ValueChanged\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"retrieve\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"store\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]",
+	Bin: "0x608060405234801561001057600080fd5b5060e68061001f6000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c80632e64cec11460375780636057361d14604c575b600080fd5b60005460405190815260200160405180910390f35b605b60573660046098565b605d565b005b60008190556040518181527f93fe6d397c74fdf1402a8b72e47b68512f0510d7b98a4bc4cbdf6ac7108b3c599060200160405180910390a150565b60006020828403121560a957600080fd5b503591905056fea26469706673582212203c799ed2cc4f876741491e5cdaec2089e8d727457a11e13864f6b3ab74c6027764736f6c634300080b0033",
 }
 
 // ApiABI is the input ABI used to generate the binding from.
@@ -201,64 +201,188 @@ func (_Api *ApiTransactorRaw) Transact(opts *bind.TransactOpts, method string, p
 	return _Api.Contract.contract.Transact(opts, method, params...)
 }
 
-// Greet is a free data retrieval call binding the contract method 0xefdeaaf5.
+// Retrieve is a free data retrieval call binding the contract method 0x2e64cec1.
 //
-// Solidity: function Greet(string str) pure returns(string)
-func (_Api *ApiCaller) Greet(opts *bind.CallOpts, str string) (string, error) {
+// Solidity: function retrieve() view returns(uint256)
+func (_Api *ApiCaller) Retrieve(opts *bind.CallOpts) (*big.Int, error) {
 	var out []interface{}
-	err := _Api.contract.Call(opts, &out, "Greet", str)
+	err := _Api.contract.Call(opts, &out, "retrieve")
 
 	if err != nil {
-		return *new(string), err
+		return *new(*big.Int), err
 	}
 
-	out0 := *abi.ConvertType(out[0], new(string)).(*string)
+	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
 
 	return out0, err
 
 }
 
-// Greet is a free data retrieval call binding the contract method 0xefdeaaf5.
+// Retrieve is a free data retrieval call binding the contract method 0x2e64cec1.
 //
-// Solidity: function Greet(string str) pure returns(string)
-func (_Api *ApiSession) Greet(str string) (string, error) {
-	return _Api.Contract.Greet(&_Api.CallOpts, str)
+// Solidity: function retrieve() view returns(uint256)
+func (_Api *ApiSession) Retrieve() (*big.Int, error) {
+	return _Api.Contract.Retrieve(&_Api.CallOpts)
 }
 
-// Greet is a free data retrieval call binding the contract method 0xefdeaaf5.
+// Retrieve is a free data retrieval call binding the contract method 0x2e64cec1.
 //
-// Solidity: function Greet(string str) pure returns(string)
-func (_Api *ApiCallerSession) Greet(str string) (string, error) {
-	return _Api.Contract.Greet(&_Api.CallOpts, str)
+// Solidity: function retrieve() view returns(uint256)
+func (_Api *ApiCallerSession) Retrieve() (*big.Int, error) {
+	return _Api.Contract.Retrieve(&_Api.CallOpts)
 }
 
-// Hello is a free data retrieval call binding the contract method 0xbcdfe0d5.
+// Store is a paid mutator transaction binding the contract method 0x6057361d.
 //
-// Solidity: function Hello() pure returns(string)
-func (_Api *ApiCaller) Hello(opts *bind.CallOpts) (string, error) {
-	var out []interface{}
-	err := _Api.contract.Call(opts, &out, "Hello")
+// Solidity: function store(uint256 value) returns()
+func (_Api *ApiTransactor) Store(opts *bind.TransactOpts, value *big.Int) (*types.Transaction, error) {
+	return _Api.contract.Transact(opts, "store", value)
+}
 
-	if err != nil {
-		return *new(string), err
+// Store is a paid mutator transaction binding the contract method 0x6057361d.
+//
+// Solidity: function store(uint256 value) returns()
+func (_Api *ApiSession) Store(value *big.Int) (*types.Transaction, error) {
+	return _Api.Contract.Store(&_Api.TransactOpts, value)
+}
+
+// Store is a paid mutator transaction binding the contract method 0x6057361d.
+//
+// Solidity: function store(uint256 value) returns()
+func (_Api *ApiTransactorSession) Store(value *big.Int) (*types.Transaction, error) {
+	return _Api.Contract.Store(&_Api.TransactOpts, value)
+}
+
+// ApiValueChangedIterator is returned from FilterValueChanged and is used to iterate over the raw logs and unpacked data for ValueChanged events raised by the Api contract.
+type ApiValueChangedIterator struct {
+	Event *ApiValueChanged // Event containing the contract specifics and raw log
+
+	contract *bind.BoundContract // Generic contract to use for unpacking event data
+	event    string              // Event name to use for unpacking event data
+
+	logs chan types.Log        // Log channel receiving the found contract events
+	sub  ethereum.Subscription // Subscription for errors, completion and termination
+	done bool                  // Whether the subscription completed delivering logs
+	fail error                 // Occurred error to stop iteration
+}
+
+// Next advances the iterator to the subsequent event, returning whether there
+// are any more events found. In case of a retrieval or parsing error, false is
+// returned and Error() can be queried for the exact failure.
+func (it *ApiValueChangedIterator) Next() bool {
+	// If the iterator failed, stop iterating
+	if it.fail != nil {
+		return false
 	}
+	// If the iterator completed, deliver directly whatever's available
+	if it.done {
+		select {
+		case log := <-it.logs:
+			it.Event = new(ApiValueChanged)
+			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+				it.fail = err
+				return false
+			}
+			it.Event.Raw = log
+			return true
 
-	out0 := *abi.ConvertType(out[0], new(string)).(*string)
+		default:
+			return false
+		}
+	}
+	// Iterator still in progress, wait for either a data or an error event
+	select {
+	case log := <-it.logs:
+		it.Event = new(ApiValueChanged)
+		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+			it.fail = err
+			return false
+		}
+		it.Event.Raw = log
+		return true
 
-	return out0, err
-
+	case err := <-it.sub.Err():
+		it.done = true
+		it.fail = err
+		return it.Next()
+	}
 }
 
-// Hello is a free data retrieval call binding the contract method 0xbcdfe0d5.
-//
-// Solidity: function Hello() pure returns(string)
-func (_Api *ApiSession) Hello() (string, error) {
-	return _Api.Contract.Hello(&_Api.CallOpts)
+// Error returns any retrieval or parsing error occurred during filtering.
+func (it *ApiValueChangedIterator) Error() error {
+	return it.fail
 }
 
-// Hello is a free data retrieval call binding the contract method 0xbcdfe0d5.
+// Close terminates the iteration process, releasing any pending underlying
+// resources.
+func (it *ApiValueChangedIterator) Close() error {
+	it.sub.Unsubscribe()
+	return nil
+}
+
+// ApiValueChanged represents a ValueChanged event raised by the Api contract.
+type ApiValueChanged struct {
+	Value *big.Int
+	Raw   types.Log // Blockchain specific contextual infos
+}
+
+// FilterValueChanged is a free log retrieval operation binding the contract event 0x93fe6d397c74fdf1402a8b72e47b68512f0510d7b98a4bc4cbdf6ac7108b3c59.
 //
-// Solidity: function Hello() pure returns(string)
-func (_Api *ApiCallerSession) Hello() (string, error) {
-	return _Api.Contract.Hello(&_Api.CallOpts)
+// Solidity: event ValueChanged(uint256 value)
+func (_Api *ApiFilterer) FilterValueChanged(opts *bind.FilterOpts) (*ApiValueChangedIterator, error) {
+
+	logs, sub, err := _Api.contract.FilterLogs(opts, "ValueChanged")
+	if err != nil {
+		return nil, err
+	}
+	return &ApiValueChangedIterator{contract: _Api.contract, event: "ValueChanged", logs: logs, sub: sub}, nil
+}
+
+// WatchValueChanged is a free log subscription operation binding the contract event 0x93fe6d397c74fdf1402a8b72e47b68512f0510d7b98a4bc4cbdf6ac7108b3c59.
+//
+// Solidity: event ValueChanged(uint256 value)
+func (_Api *ApiFilterer) WatchValueChanged(opts *bind.WatchOpts, sink chan<- *ApiValueChanged) (event.Subscription, error) {
+
+	logs, sub, err := _Api.contract.WatchLogs(opts, "ValueChanged")
+	if err != nil {
+		return nil, err
+	}
+	return event.NewSubscription(func(quit <-chan struct{}) error {
+		defer sub.Unsubscribe()
+		for {
+			select {
+			case log := <-logs:
+				// New log arrived, parse the event and forward to the user
+				event := new(ApiValueChanged)
+				if err := _Api.contract.UnpackLog(event, "ValueChanged", log); err != nil {
+					return err
+				}
+				event.Raw = log
+
+				select {
+				case sink <- event:
+				case err := <-sub.Err():
+					return err
+				case <-quit:
+					return nil
+				}
+			case err := <-sub.Err():
+				return err
+			case <-quit:
+				return nil
+			}
+		}
+	}), nil
+}
+
+// ParseValueChanged is a log parse operation binding the contract event 0x93fe6d397c74fdf1402a8b72e47b68512f0510d7b98a4bc4cbdf6ac7108b3c59.
+//
+// Solidity: event ValueChanged(uint256 value)
+func (_Api *ApiFilterer) ParseValueChanged(log types.Log) (*ApiValueChanged, error) {
+	event := new(ApiValueChanged)
+	if err := _Api.contract.UnpackLog(event, "ValueChanged", log); err != nil {
+		return nil, err
+	}
+	event.Raw = log
+	return event, nil
 }
