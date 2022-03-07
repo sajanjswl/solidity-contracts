@@ -23,13 +23,13 @@ func main() {
 		log.Fatalf("Failed to connect to the Ethereum client: %v", err)
 	}
 
-	contractAddress := common.HexToAddress("0x2C252a45d1f2D294aA4c13B157bBb93386d00B91")
+	contractAddress := common.HexToAddress("0xfb727ea18e43f6602E53F93960d31882A8b10fdA")
 	conn, err := api.NewApi(contractAddress, client)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	privateKey, err := crypto.HexToECDSA("8498e9dd47acaa9e26d3c9f28ad990434e8ca59ecc825b1e49921ceaad665f08")
+	privateKey, err := crypto.HexToECDSA("37b7bd4ef5c92a3f74e708a2cc070997ce5784fa21adeb9c971d9907daea1e78")
 	if err != nil {
 		panic(err)
 	}
