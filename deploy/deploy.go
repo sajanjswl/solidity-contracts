@@ -18,7 +18,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	key := "18ec0863d11b486a1e921fe76f9d219c0795de9f42d2946f4ae125d428564d90"
+	key := "37b7bd4ef5c92a3f74e708a2cc070997ce5784fa21adeb9c971d9907daea1e78"
 	privateKey, err := crypto.HexToECDSA(key)
 	if err != nil {
 		panic(err)
