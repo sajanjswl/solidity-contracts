@@ -11,4 +11,9 @@
 
 # solc --optimize --bin ./contracts/Box.sol -o build
 
-abigen --abi=./build/box.abi --bin=./build/box.bin --pkg=api --out=./api/box.go
+# abigen --abi=./build/box.abi --bin=./build/box.bin --pkg=api --out=./api/box.go
+
+
+	# solc --optimize  --abi ./contracts/Box.sol -o build
+	#  solc --optimize --bin ./contracts/Box.sol -o build
+	abigen --abi=./build/GameItems.abi --bin=./build/GameItems.bin --pkg=api --out=./api/GameItems.go

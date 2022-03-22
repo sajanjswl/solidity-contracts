@@ -13,7 +13,6 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/ethereum/go-ethereum/event"
 )
 
 func main() {
@@ -23,7 +22,7 @@ func main() {
 		log.Fatalf("Failed to connect to the Ethereum client: %v", err)
 	}
 
-	contractAddress := common.HexToAddress("0xfb727ea18e43f6602E53F93960d31882A8b10fdA")
+	contractAddress := common.HexToAddress("0xbf8d8e47B960cB5eDC3e4274eccC5fB6DEDb65b4")
 	conn, err := api.NewApi(contractAddress, client)
 	if err != nil {
 		fmt.Println(err)
@@ -60,41 +59,45 @@ func main() {
 	auth.Value = big.NewInt(0)      // in wei
 	auth.GasLimit = uint64(3000000) // in units
 	auth.GasPrice = big.NewInt(1000000)
-	ch := make(chan *api.ApiValueChanged)
-	opts := &bind.WatchOpts{}
-	// opts.Start = &blockNumber
-	sub, err := conn.WatchValueChanged(opts, ch)
-	// _, err := contract.W(opts, ch, s)
-	if err != nil {
-		log.Fatalf("Failed WatchYearChanged: %v", err)
-	}
+	opts := &bind.CallOpts{}
+	gold, err := conn.SILVER(opts)
 
-	go events(sub, ch)
-	_, err = conn.Store(&bind.TransactOpts{
-		From:   fromAddress,
-		Signer: auth.Signer,
-	}, big.NewInt(1100))
-	if err != nil {
-		fmt.Println("Faile to store value", err.Error())
-	}
+	fmt.Println("Printing gold", gold)
+	// ch := make(chan *api.ApiValueChanged)
 
-	_, err = conn.Retrieve(&bind.CallOpts{})
-	if err != nil {
-		fmt.Println("failed to retrieve value", err.Error())
-	}
+	// // opts.Start = &blockNumber
+	// sub, err := conn.WatchValueChanged(opts, ch)
+	// // _, err := contract.W(opts, ch, s)
+	// if err != nil {
+	// 	log.Fatalf("Failed WatchYearChanged: %v", err)
+	// }
+
+	// go events(sub, ch)
+	// _, err = conn.Store(&bind.TransactOpts{
+	// 	From:   fromAddress,
+	// 	Signer: auth.Signer,
+	// }, big.NewInt(1100))
+	// if err != nil {
+	// 	fmt.Println("Faile to store value", err.Error())
+	// }
+
+	// _, err = conn.Retrieve(&bind.CallOpts{})
+	// if err != nil {
+	// 	fmt.Println("failed to retrieve value", err.Error())
+	// }
 
 }
 
-func events(sub event.Subscription, ch <-chan *api.ApiValueChanged) {
+// func events(sub event.Subscription, ch <-chan *api.ApiValueChanged) {
 
-	for {
-		select {
-		case err := <-sub.Err():
-			log.Fatal(err)
-		case vLog := <-ch:
-			fmt.Println(vLog.Value) // pointer to event log
-			fmt.Println("Printing vlog", vLog)
-			// fmt.Println("I was here", vLog.Data)
-		}
-	}
-}
+// 	for {
+// 		select {
+// 		case err := <-sub.Err():
+// 			log.Fatal(err)
+// 		case vLog := <-ch:
+// 			fmt.Println(vLog.Value) // pointer to event log
+// 			fmt.Println("Printing vlog", vLog)
+// 			// fmt.Println("I was here", vLog.Data)
+// 		}
+// 	}
+// }

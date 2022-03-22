@@ -1,23 +1,21 @@
-// contracts/Box.sol
+// contracts/GameItems.sol
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-// Import Ownable from the OpenZeppelin Contracts library
-import "../openzeppelin-contracts/contracts/access/Ownable.sol";
+import "../openzeppelin-contracts/contracts/token/ERC1155/ERC1155.sol";
 
-// Make Box inherit from the Ownable contract
-contract Box is Ownable {
-    uint256 private _value;
+contract GameItems is ERC1155 {
+    uint256 public constant GOLD = 0;
+    uint256 public constant SILVER = 1;
+    uint256 public constant THORS_HAMMER = 2;
+    uint256 public constant SWORD = 3;
+    uint256 public constant SHIELD = 4;
 
-    event ValueChanged(uint256 value);
-
-    // The onlyOwner modifier restricts who can call the store function
-    function store(uint256 value) public onlyOwner {
-        _value = value;
-        emit ValueChanged(value);
-    }
-
-    function retrieve() public view returns (uint256) {
-        return _value;
+    constructor() ERC1155("https://game.example/api/item/{id}.json") {
+        _mint(msg.sender, GOLD, 10**18, "");
+        _mint(msg.sender, SILVER, 10**27, "");
+        _mint(msg.sender, THORS_HAMMER, 1, "");
+        _mint(msg.sender, SWORD, 10**9, "");
+        _mint(msg.sender, SHIELD, 10**9, "");
     }
 }
